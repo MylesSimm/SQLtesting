@@ -43,5 +43,12 @@ public class Main {
         int rowsInserted = statement.executeUpdate();
         System.out.println("Rows inserted: " + rowsInserted);
     }
-
+    private static void searchData(String select, String from, String where) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                        SELECT select
+                        FROM from
+                        WHERE where;
+                                                                  """);
+        ResultSet rs = statement.excuteQuery(); 
+    }
     }
