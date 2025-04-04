@@ -2,19 +2,46 @@
 // then press Enter. You can now see whitespace characters in your code.
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import static javax.swing.DropMode.INSERT;
 
 public class Main {
-    public static void main(String[] args) {
-        Connection connection = null;
-        String url = "Jbdc:mariadb://localhost:3306/test";
-        String user = "root";
-        String password = "root";
+    private static Connection connection;
+    public static void main(String[] args) throws SQLException {
         try {
-            connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException) {
-            e.printStackTrace();
+            openDatabaseConnection();
+            createData("Java", 10);
+        } finally {
+            closeDatabaseConnection();
         }
-        System.out.println("Successfully connected");
-        
-        }
+    }
+    private static void openDatabaseConnection() throws SQLException {
+        String url = "jdbc:mariadb://localhost:3306/sys";
+        String user = "root";
+        String password = "33yor3is12";
+        System.out.println("Connecting to Database...");
+        connection = DriverManager.getConnection(url, user, password);
+        System.out.println("Connection valid: " + connection.isValid(5));
+
+    }
+
+    public static void closeDatabaseConnection() throws SQLException {
+        System.out.println("Closing database connection...");
+        connection.close();
+        System.out.println("Connection valid: " + connection.isValid(5));
+    }
+
+    private static void createData(String name, int rating) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                       INSERT INTO programing_language(name, rating)
+                       VALUES (?, ?)
+                       """);
+        statement.setString(1, name);
+        statement.setInt(2, rating);
+        int rowsInserted = statement.executeUpdate();
+        System.out.println("Rows inserted: " + rowsInserted);
+    }
+
     }
