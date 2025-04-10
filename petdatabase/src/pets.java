@@ -20,7 +20,7 @@ public class pets {
     private static void openDatabaseConnection() throws SQLException {
         String url = "jdbc:mariadb://localhost:3306/pets";
         String user = "root";
-        String password = "33yor3is12";
+        String password = "...";
         System.out.println("Connecting to Database...");
         connection = DriverManager.getConnection(url, user, password);
         System.out.println("Connection valid: " + connection.isValid(5));
